@@ -24,7 +24,9 @@ public class ScorePopController : MonoBehaviour
     /** ポップ表示時間(待機) */
     [SerializeField]
     float m_WaitDuration = 1.5f;
-    
+
+    int num = 0;
+
     void Start()
     {
         // すべて非アクティブにする
@@ -35,6 +37,8 @@ public class ScorePopController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
+            num++;
+            SetPop(num);
         }
 
         // キューにタスクが存在する
