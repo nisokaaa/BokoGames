@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BallSpawner : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class BallSpawner : MonoBehaviour
     /** 初期プール数 */
     const int MAX_BALL_COUNT = 50;
 
-    /** 自身の2DTransform */
+    /** 2DTransform */
     [SerializeField]
     RectTransform m_Rect;
 
@@ -25,10 +24,6 @@ public class BallSpawner : MonoBehaviour
     /** ボールPrefab */
     [SerializeField]
     GameObject m_BallPrefab;
-
-    /** ボールSpriteリスト */
-    [SerializeField]
-    List<Sprite> m_BallSprits = new List<Sprite>();
 
     /** ボールリスト */
     List<Ball> m_Balls = new List<Ball>();
@@ -59,9 +54,6 @@ public class BallSpawner : MonoBehaviour
 
             if(ball != null)
             {
-                // Spriteを乱数で決定
-                ball.GetComponent<Image>().sprite = m_BallSprits[m_Rand.Next(m_BallSprits.Count)];
-
                 // 親をCanavasに設定
                 ball.gameObject.transform.SetParent(m_Canvas.transform, false);
 
@@ -95,7 +87,9 @@ public class BallSpawner : MonoBehaviour
     /// <param name="range">生成座標範囲(半径)</param>
     IEnumerator CreateBall(int amount, float interval, int range)
     {
-        for(int i = 0; i < amount; i++)
+        List<BallInfo> ballInfoList = BallBundleInfo.GetInfoList();
+
+        for (int i = 0; i < amount; i++)
         {
             // 非アクティブのボールをひとつ取得
             Ball ball = m_Balls.Find(s => !s.gameObject.activeSelf);
@@ -109,9 +103,9 @@ public class BallSpawner : MonoBehaviour
                 int randPosition = m_Rand.Next(-range, range);
                 Vector2 position = new Vector2((int)m_Rect.position.x + randPosition,
                                                (int)m_Rect.position.y + randPosition);
-
-                // ボールの初期姿勢を設定
-                ball.Init(position);
+                
+                // 初期化
+                ball.Init(position, ballInfoList[m_Rand.Next(ballInfoList.Count)]);
             }
 
             yield return new WaitForSeconds(interval);
