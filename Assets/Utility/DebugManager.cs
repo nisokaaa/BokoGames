@@ -43,8 +43,9 @@ public class DebugManager : SingletonMonobehaviour<DebugManager>
      */
     private void OnGUI()
     {
+#if UNITY_EDITOR
         // ログGUI
         Logger.OnGUI_ShowLog();
-        
+#endif
     }
 }
