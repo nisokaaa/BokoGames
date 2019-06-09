@@ -11,7 +11,7 @@ public class BallSpawner : MonoBehaviour
     }
 
     /** 初期プール数 */
-    const int MAX_BALL_COUNT = 50;
+    const int MAX_BALL_COUNT = 75;
 
     /** 2DTransform */
     [SerializeField]

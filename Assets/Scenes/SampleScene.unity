@@ -406,8 +406,8 @@ MonoBehaviour:
   m_BallPrefab: {fileID: 1874411533088192, guid: ce413a97e54474a44867bb261ca88f3c,
     type: 2}
   m_CreateRange: 50
-  m_CreateAmount: 20
-  m_CreateInterval: 0.01
+  m_CreateAmount: 25
+  m_CreateInterval: 0.1
 --- !u!1 &858244981
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,10 +971,6 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1874411533088192, guid: ce413a97e54474a44867bb261ca88f3c, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce413a97e54474a44867bb261ca88f3c, type: 2}

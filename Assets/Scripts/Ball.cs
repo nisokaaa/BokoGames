@@ -20,14 +20,14 @@ public class Ball : MonoBehaviour
     [SerializeField]
     RayHit2d m_RayCast;
 
-    void Start ()
-    {
-    }
-	
-	void Update ()
-    {
-        
-    }
+    /** ボールを消せる条件(連結数) */
+    public const int LINK_BURST_BALL_COUNT = 3;
+
+    /** 連結時の拡大倍率 */
+    public const float LINK_BALL_MAGNIFY = 1.25f;
+
+    /** 連結時の連結数ボーナス拡大倍率 */
+    public const float LINK_BALL_MAGNIFY_BONUS = 0.15f;
 
     public void OnTouch()
     {
@@ -41,14 +41,19 @@ public class Ball : MonoBehaviour
 
         // 走査開始
         SearchContact(this, ref ignores, ref results);
-        
-        // 結果出力
-        foreach (Ball ball in results)
+
+        // 条件を満たしていたら
+        if (results.Count >= LINK_BURST_BALL_COUNT)
         {
-            ball.gameObject.SetActive(false);
-            DebugManager.Log(ball.m_Info.type.ToString());
+            // タップしたボール以外を消す
+            for (int i = 1; i < results.Count; i++)
+            {
+                results[i].gameObject.SetActive(false);
+            }
+
+            // タップした球を大きくする
+            results[0].m_Rect.localScale *= LINK_BALL_MAGNIFY * (LINK_BALL_MAGNIFY_BONUS * results.Count) + 1.0f;
         }
-        DebugManager.Log("------------------------------", Color.red);
     }
 
     /// <summary>

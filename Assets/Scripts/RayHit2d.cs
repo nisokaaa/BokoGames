@@ -39,7 +39,7 @@ public class RayHit2d : MonoBehaviour
 
     /** 中心座標からRay開始座標までの半径R */
     [SerializeField]
-    float m_OriginOffsetR = 30f;
+    public float m_OriginOffsetR = 30f;
 
     /** 親の2DTransforｍ */
     [SerializeField]
@@ -56,8 +56,8 @@ public class RayHit2d : MonoBehaviour
             float theta = (360f / m_Amount * i) * Mathf.PI / 180f;
 
             // オブジェクトの中心から半径Rだけ離れた2DRayの開始座標を求める
-            Vector2 origin = new Vector2(m_OriginOffsetR * Mathf.Cos(theta),
-                                      m_OriginOffsetR * Mathf.Sin(theta));
+            Vector2 origin = new Vector2(m_OriginOffsetR * m_ParentRect.localScale.magnitude * Mathf.Cos(theta),
+                                         m_OriginOffsetR * m_ParentRect.localScale.magnitude * Mathf.Sin(theta));
 
             m_RayList.Add(new Ray(origin, theta));
         }
@@ -68,17 +68,19 @@ public class RayHit2d : MonoBehaviour
         foreach(Ray ray in m_RayList)
         {
             // オブジェクトの中心から半径Rだけ離れた2DRayの開始座標を求める
-            ray.origin = new Vector2(m_OriginOffsetR * Mathf.Cos(ray.theta),
-                                      m_OriginOffsetR * Mathf.Sin(ray.theta));
+            ray.origin = new Vector2(m_OriginOffsetR * m_ParentRect.localScale.magnitude * Mathf.Cos(ray.theta),
+                                     m_OriginOffsetR * m_ParentRect.localScale.magnitude * Mathf.Sin(ray.theta));
 
-            Debug.DrawRay(new Vector2(ray.origin.x + m_ParentRect.position.x, ray.origin.y + m_ParentRect.position.y), ray.direction * m_Length, Color.green, 0.01f);
+            // Rayを描画(デバッグ用)
+            Debug.DrawRay(new Vector2(ray.origin.x + m_ParentRect.position.x, ray.origin.y + m_ParentRect.position.y),
+                                          ray.direction * m_Length * m_ParentRect.localScale.magnitude, Color.green, 0.01f);
         }
     }
 
     /// <summary>
     /// RayにHitしたBallのリストを返す
     /// </summary>
-    /// <returns>Ballのリスト</returns>
+    /// <returns>衝突したBallのリスト</returns>
     public List<Ball> GetHitBalls(Ball ignore)
     {
         List<string> m_IgnoreIds = new List<string>();
@@ -127,14 +129,6 @@ public class RayHit2d : MonoBehaviour
                 }    
             }
         }
-
-        //// デバッグ表示
-        //foreach(Ball ball in m_HitBalls)
-        //{
-        //    DebugManager.Log(ball.m_Info.type.ToString());
-        //}
-        //DebugManager.Log("------------------------------", Color.red);
-
         return m_HitBalls.Count > 0 ? m_HitBalls : null;
     }
 }
