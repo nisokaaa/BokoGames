@@ -24,10 +24,10 @@ public class Ball : MonoBehaviour
     public const int LINK_BURST_BALL_COUNT = 3;
 
     /** 連結時の拡大倍率 */
-    public const float LINK_BALL_MAGNIFY = 1.25f;
+    public const float LINK_BALL_MAGNIFY = 1.1f;
 
     /** 連結時の連結数ボーナス拡大倍率 */
-    public const float LINK_BALL_MAGNIFY_BONUS = 0.15f;
+    public const float LINK_BALL_MAGNIFY_BONUS = 0.125f;
 
     public void OnTouch()
     {
